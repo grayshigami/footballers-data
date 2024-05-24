@@ -100,6 +100,7 @@
                 <th>-</th>
                 <th>-</th>
                 <th>-</th>
+                <th>-</th>
                 <th>
                     <select name="" id="" class="selec-value" v-model="filters.heightComparing">
                         <option value="equal" selected>Equal</option>
@@ -128,6 +129,7 @@
                 <th>-</th>
             </tr>
             <tr>
+                <th>*</th>
                 <th>*</th>
                 <th>
                     <input type="text" v-model="filters.name">
@@ -160,11 +162,12 @@
                     <input type="text" class="it" v-model="filters.tc">
                 </th>
                 <th>
-                    <input type="text" class="igci" v-model="filters.starter">
+                    <input type="text" class="sgci" v-model="filters.starter">
                 </th>
                 <th>*</th>
             </tr>
             <tr>
+                <th>*</th>
                 <th>*</th>
                 <th @click="sortByColumn('name')">
                     Name
@@ -250,10 +253,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="footballer in filteredFootballers" :key="footballer._id">
+            <tr v-for="(footballer, index) in filteredFootballers" :key="footballer._id">
                 <td>
                     <input type="checkbox" v-model="selectedFootballers" :value="footballer._id" class="selector">
                 </td>
+                <td>{{ index + 1}}</td>
                 <td>{{ footballer.name }}</td>
                 <td>
                     <img :src="footballer.nationality.flag" alt="" width="20" height="15">
@@ -675,7 +679,11 @@ th input {
 }
 
 .it {
-    width: 50px;
+    width: 40px;
+}
+
+.sgci {
+    width: 60px;
 }
 
 .fw-table td, th {
