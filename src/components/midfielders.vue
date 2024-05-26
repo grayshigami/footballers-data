@@ -32,8 +32,8 @@
                     <input type="number" id="height" v-model="newFootballer.height">
                     <label for="birthday">Birthday</label>
                     <input type="text" id="birthday" v-model="newFootballer.birthday">
-                    <label for="caps">Caps</label>
-                    <input type="number" id="caps" v-model="newFootballer.caps">
+                    <label for="apps">Apps</label>
+                    <input type="number" id="apps" v-model="newFootballer.apps">
                 </div>
                 <div class="right">
                     <label for="goals">Goals</label>
@@ -78,8 +78,8 @@
                     <input type="number" id="newHeight" v-model="updatedFootballer.height">
                     <label for="newBirthday">Birthday</label>
                     <input type="text" id="newBirthday" v-model="updatedFootballer.birthday">
-                    <label for="newCaps">Caps</label>
-                    <input type="number" id="newCaps" v-model="updatedFootballer.caps">
+                    <label for="newApps">Apps</label>
+                    <input type="number" id="newApps" v-model="updatedFootballer.apps">
                 </div>
                 <div class="right">
                     <label for="newGoals">Goals</label>
@@ -119,7 +119,7 @@
                 </th>
                 <th>-</th>
                 <th>
-                    <select name=""  id="" class="selec-value" v-model="filters.capsComparing">
+                    <select name=""  id="" class="selec-value" v-model="filters.appsComparing">
                         <option value="equal">Equal</option>
                         <option value="greater">Greater</option>
                         <option value="lower">Lower</option>
@@ -160,7 +160,7 @@
                     <input type="text" v-model="filters.nationality.name">
                 </th>
                 <th>
-                    <input type="text" v-model="filters.birthplace">
+                    <input type="text" class="bsp" v-model="filters.birthplace">
                 </th>
                 <th>
                     <input type="text" v-model="filters.countryOfBirth.name">
@@ -175,10 +175,10 @@
                     <input type="text" class="igci" v-model="filters.birthday">
                 </th>
                 <th>
-                    <input type="text" class="gci" v-model="filters.caps">
+                    <input type="text" class="cgci" v-model="filters.apps">
                 </th>
                 <th>
-                    <input type="text" class="gci" v-model="filters.goals">
+                    <input type="text" class="cgci" v-model="filters.goals">
                 </th>
                 <th>
                     <input type="text" class="igci" v-model="filters.intCaps">
@@ -196,7 +196,7 @@
             </tr>
             <tr>
                 <th>*</th>
-                <th>*</th>
+                <th>#</th>
                 <th @click="sortByColumn('name')">
                     Name
                     <i v-if="sortBy === 'name' && sortDirection === 'asc'" class="fa-solid fa-sort-up"></i>
@@ -249,10 +249,10 @@
                     class="fa-solid fa-sort-down"></i>
                     <i v-else class="fa-solid fa-sort header-icon"></i>
                 </th>
-                <th @click="sortByColumn('caps')">
-                    Caps
-                    <i v-if="sortBy === 'caps' && sortDirection === 'asc'" class="fa-solid fa-sort-up"></i>
-                    <i v-else-if="sortBy === 'caps' && sortDirection === 'desc'" 
+                <th @click="sortByColumn('apps')">
+                    Apps
+                    <i v-if="sortBy === 'apps' && sortDirection === 'asc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="sortBy === 'apps' && sortDirection === 'desc'" 
                     class="fa-solid fa-sort-down"></i>
                     <i v-else class="fa-solid fa-sort header-icon"></i>
                 </th>
@@ -313,7 +313,7 @@
                 <td>{{ footballer.position }}</td>
                 <td>{{ footballer.height ? footballer.height.toFixed(2) : 0 }}</td>
                 <td>{{ footballer.birthday }}</td>
-                <td class="tdwd">{{ footballer.caps }}</td>
+                <td class="tdwd">{{ footballer.apps }}</td>
                 <td>{{ footballer.goals }}</td>
                 <td>{{ footballer.intCaps }}</td>
                 <td>{{ footballer.intGoals }}</td>
@@ -353,7 +353,7 @@ export default {
                 position: '',
                 height: 0.00,
                 birthday: '',
-                caps: 0,
+                apps: 0,
                 goals: 0,
                 intCaps: 0,
                 intGoals: 0,
@@ -377,7 +377,7 @@ export default {
                 position: '',
                 height: null,
                 birthday: '',
-                caps: null,
+                apps: null,
                 goals: null,
                 intCaps: null,
                 intGoals: null,
@@ -387,7 +387,7 @@ export default {
                 },
                 tc: '',
                 heightComparing: 'equal',
-                capsComparing: 'equal',
+                appsComparing: 'equal',
                 goalsComparing: 'equal',
                 intCapsComparing: 'equal',
                 intGoalsComparing: 'equal'
@@ -396,7 +396,9 @@ export default {
             visible: false,
             updateVisible: false,
             sortBy: '',
-            sortDirection: 'asc'
+            sortDirection: 'asc',
+            filterName: '',
+            filterBirthplace: ''
         };
     },
     mounted() {
@@ -412,14 +414,14 @@ export default {
                 const filterPosition = this.filters.position.toLowerCase();
                 const filterHeight = this.filters.height;
                 const filterBirthday = this.filters.birthday.toLowerCase();
-                const filterCaps = this.filters.caps;
+                const filterApps = this.filters.apps;
                 const filterGoals = this.filters.goals;
                 const filterIntCaps = this.filters.intCaps;
                 const filterIntGoals = this.filters.intGoals;
                 const filterTeam = this.filters.team.name.toLowerCase();
                 const filterTc = this.filters.tc.toLowerCase();
                 const heightComparing = this.filters.heightComparing;
-                const capsComparing = this.filters.capsComparing;
+                const appsComparing = this.filters.appsComparing;
                 const goalsComparing = this.filters.goalsComparing;
                 const intCapsComparing = this.filters.intCapsComparing;
                 const intGoalsComparing = this.filters.intGoalsComparing;
@@ -438,7 +440,7 @@ export default {
 
                 
                 let matchesFilterHeight = true;
-                let matchesFilterCaps = true;
+                let matchesFilterApps = true;
                 let matchesFilterGoals = true;
                 let matchesFilterIntCaps = true;
                 let matchesFilterIntGoals = true;
@@ -455,15 +457,15 @@ export default {
                     }
                 }
 
-                if (filterCaps) {
-                    const caps = parseInt(filterCaps);
+                if (filterApps) {
+                    const apps = parseInt(filterApps);
 
-                    if (capsComparing === 'greater') {
-                        matchesFilterCaps = footballer.caps > caps;
-                    } else if (capsComparing === 'lower') {
-                        matchesFilterCaps = footballer.caps < caps;
-                    } else if (capsComparing === 'equal') {
-                        matchesFilterCaps = footballer.caps === caps;
+                    if (appsComparing === 'greater') {
+                        matchesFilterApps = footballer.apps > apps;
+                    } else if (appsComparing === 'lower') {
+                        matchesFilterApps = footballer.apps < apps;
+                    } else if (appsComparing === 'equal') {
+                        matchesFilterApps = footballer.apps === apps;
                     }
                 }
 
@@ -505,7 +507,7 @@ export default {
 
                 return matchesFilterName && matchesFilterNationality && matchesFilterBirthplace &&
                 matchesFilterCountryOfBirth && matchesFilterPosition && matchesFilterHeight && matchesFilterBirthday &&
-                matchesFilterCaps && matchesFilterGoals && matchesFilterIntCaps && matchesFilterIntGoals &&
+                matchesFilterApps && matchesFilterGoals && matchesFilterIntCaps && matchesFilterIntGoals &&
                 matchesFilterTeam && matchesFilterTc;
             });
         },
@@ -526,7 +528,7 @@ export default {
                 position: '',
                 height: 0.00,
                 birthday: '',
-                caps: 0,
+                apps: 0,
                 goals: 0,
                 intCaps: 0,
                 intGoals: 0,
@@ -558,7 +560,7 @@ export default {
             this.updatedFootballer.position = footballer.position;
             this.updatedFootballer.height = footballer.height;
             this.updatedFootballer.birthday = footballer.birthday;
-            this.updatedFootballer.caps = footballer.caps;
+            this.updatedFootballer.apps = footballer.apps;
             this.updatedFootballer.goals = footballer.goals;
             this.updatedFootballer.intCaps = footballer.intCaps;
             this.updatedFootballer.intGoals = footballer.intGoals;
@@ -585,7 +587,7 @@ export default {
                     position: this.updatedFootballer.position,
                     height: this.updatedFootballer.height,
                     birthday: this.updatedFootballer.birthday,
-                    caps: this.updatedFootballer.caps,
+                    apps: this.updatedFootballer.apps,
                     goals: this.updatedFootballer.goals,
                     intCaps: this.updatedFootballer.intCaps,
                     intGoals: this.updatedFootballer.intGoals,
@@ -634,10 +636,10 @@ export default {
                 this.sortDirection = 'asc';
             }
 
-            if ((column == "Height" || column == "Caps" || column == "Goals" || column == "IntCaps" ||
+            if ((column == "Height" || column == "Apps" || column == "Goals" || column == "IntCaps" ||
                 column == "IntGoals") && this.sortDirection == 'asc') {
                     this.footballers.sort(function(a, b) { return a - b });
-            } else if ((column == "Height" || column == "Caps" || column == "Goals" || column == "IntCaps" ||
+            } else if ((column == "Height" || column == "Apps" || column == "Goals" || column == "IntCaps" ||
                 column == "IntGoals") && this.sortDirection == 'desc') {
                     this.footballers.sort(function(a, b) { return b - a });
             } else {
@@ -739,6 +741,7 @@ h2 {
 .selec-value {
     box-sizing: border-box;
     padding: 2px;
+    width: 70px;
 }
 
 .fw-table {
@@ -759,16 +762,23 @@ th input {
 }
 
 .gci {
-    width: 50px;
+    width: 55px;
 }
 
 .igci {
     width: 70px;
 }
 
+.cgci {
+    width: 55px;
+}
 
 .it {
     width: 40px;
+}
+
+.bsp {
+    width: 100px;
 }
 
 .fw-table td, th {
@@ -787,7 +797,7 @@ th {
 td {
     font-size: 14px;
     border-top: 1px solid black;
-    padding: 4px;
+    padding: 3px;
 }
 
 .selector {

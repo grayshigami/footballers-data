@@ -30,8 +30,8 @@
                     <input type="number" id="height" v-model="newFootballer.height">
                     <label for="birthday">Birthday</label>
                     <input type="text" id="birthday" v-model="newFootballer.birthday">
-                    <label for="caps">Caps</label>
-                    <input type="number" id="caps" v-model="newFootballer.caps">
+                    <label for="apps">Apps</label>
+                    <input type="number" id="apps" v-model="newFootballer.apps">
                 </div>
                 <div class="right">
                     <label for="intCaps">IntCaps</label>
@@ -72,8 +72,8 @@
                     <input type="number" id="newHeight" v-model="updatedFootballer.height">
                     <label for="newBirthday">Birthday</label>
                     <input type="text" id="newBirthday" v-model="updatedFootballer.birthday">
-                    <label for="newCaps">Caps</label>
-                    <input type="number" id="newCaps" v-model="updatedFootballer.caps">
+                    <label for="newApps">Apps</label>
+                    <input type="number" id="newApps" v-model="updatedFootballer.apps">
                 </div>
                 <div class="right">
                     <label for="newIntCaps">IntCaps</label>
@@ -110,7 +110,7 @@
                 </th>
                 <th>-</th>
                 <th>
-                    <select name="" id="" class="selec-value" v-model="filters.capsComparing">
+                    <select name="" id="" class="selec-value" v-model="filters.appsComparing">
                         <option value="equal">Equal</option>
                         <option value="greater">Greater</option>
                         <option value="lower">Lower</option>
@@ -150,7 +150,7 @@
                     <input type="text" class="igci" v-model="filters.birthday">
                 </th>
                 <th>
-                    <input type="text" class="gci" v-model="filters.caps">
+                    <input type="text" class="gci" v-model="filters.apps">
                 </th>
                 <th>
                     <input type="text" class="igci" v-model="filters.intCaps">
@@ -168,7 +168,7 @@
             </tr>
             <tr>
                 <th>*</th>
-                <th>*</th>
+                <th>#</th>
                 <th @click="sortByColumn('name')">
                     Name
                     <i v-if="sortBy === 'name' && sortDirection === 'asc'" class="fa-solid fa-sort-up"></i>
@@ -214,10 +214,10 @@
                     class="fa-solid fa-sort-down"></i>
                     <i v-else class="fa-solid fa-sort header-icon"></i>
                 </th>
-                <th @click="sortByColumn('caps')">
-                    Caps
-                    <i v-if="sortBy === 'caps' && sortDirection === 'asc'" class="fa-solid fa-sort-up"></i>
-                    <i v-else-if="sortBy === 'caps' && sortDirection === 'desc'" 
+                <th @click="sortByColumn('apps')">
+                    Apps
+                    <i v-if="sortBy === 'apps' && sortDirection === 'asc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="sortBy === 'apps' && sortDirection === 'desc'" 
                     class="fa-solid fa-sort-down"></i>
                     <i v-else class="fa-solid fa-sort header-icon"></i>
                 </th>
@@ -270,7 +270,7 @@
                 </td>
                 <td>{{ footballer.height ? footballer.height.toFixed(2) : 0 }}</td>
                 <td>{{ footballer.birthday }}</td>
-                <td>{{ footballer.caps }}</td>
+                <td>{{ footballer.apps }}</td>
                 <td>{{ footballer.intCaps }}</td>
                 <td>
                     <img :src="footballer.team.logo" alt="" width="19" height="20">
@@ -308,7 +308,7 @@ export default {
                 },
                 height: 0.00,
                 birthday: '',
-                caps: 0,
+                apps: 0,
                 intCaps: 0,
                 team: {
                     logo: '',
@@ -330,7 +330,7 @@ export default {
                 },
                 height: null,
                 birthday: '',
-                caps: null,
+                apps: null,
                 intCaps: null,
                 team: {
                     logo: '',
@@ -339,7 +339,7 @@ export default {
                 tc: '',
                 starter: '',
                 heightComparing: 'equal',
-                capsComparing: 'equal',
+                appsComparing: 'equal',
                 intCapsComparing: 'equal',
             },
             selectedFootballers: [],
@@ -361,13 +361,13 @@ export default {
                 const filterCountryOfBirth = this.filters.countryOfBirth.name.toLowerCase();
                 const filterHeight = this.filters.height;
                 const filterBirthday = this.filters.birthday.toLowerCase();
-                const filterCaps = this.filters.caps;
+                const filterApps = this.filters.apps;
                 const filterIntCaps = this.filters.intCaps;
                 const filterTeam = this.filters.team.name.toLowerCase();
                 const filterTc = this.filters.tc.toLowerCase();
                 const filterStarter = this.filters.starter.toLowerCase();
                 const heightComparing = this.filters.heightComparing;
-                const capsComparing = this.filters.capsComparing;
+                const appsComparing = this.filters.appsComparing;
                 const intCapsComparing = this.filters.intCapsComparing;
 
                 const matchesFilterName = !filterName || footballer.name.toLowerCase().includes(filterName);
@@ -384,7 +384,7 @@ export default {
 
                 
                 let matchesFilterHeight = true;
-                let matchesFilterCaps = true;
+                let matchesFilterApps = true;
                 let matchesFilterIntCaps = true;
 
                 if (filterHeight) {
@@ -399,15 +399,15 @@ export default {
                     }
                 }
 
-                if (filterCaps) {
-                    const caps = parseInt(filterCaps);
+                if (filterApps) {
+                    const apps = parseInt(filterApps);
 
-                    if (capsComparing === 'greater') {
-                        matchesFilterCaps = footballer.caps > caps;
-                    } else if (capsComparing === 'lower') {
-                        matchesFilterCaps = footballer.caps < caps;
-                    } else if (capsComparing === 'equal') {
-                        matchesFilterCaps = footballer.caps === caps;
+                    if (appsComparing === 'greater') {
+                        matchesFilterApps = footballer.apps > apps;
+                    } else if (appsComparing === 'lower') {
+                        matchesFilterApps = footballer.apps < apps;
+                    } else if (appsComparing === 'equal') {
+                        matchesFilterApps = footballer.apps === apps;
                     }
                 }
 
@@ -425,7 +425,7 @@ export default {
 
                 return matchesFilterName && matchesFilterNationality && matchesFilterBirthplace &&
                 matchesFilterCountryOfBirth && matchesFilterHeight && matchesFilterBirthday &&
-                matchesFilterCaps && matchesFilterIntCaps && matchesFilterTeam && matchesFilterTc && 
+                matchesFilterApps && matchesFilterIntCaps && matchesFilterTeam && matchesFilterTc && 
                 matchesFilterStarter;
             });
         },
@@ -445,7 +445,7 @@ export default {
                 },
                 height: 0.00,
                 birthday: '',
-                caps: 0,
+                apps: 0,
                 intCaps: 0,
                 team: {
                     logo: '',
@@ -475,7 +475,7 @@ export default {
             this.updatedFootballer.countryOfBirth.name = footballer.countryOfBirth.name;
             this.updatedFootballer.height = footballer.height;
             this.updatedFootballer.birthday = footballer.birthday;
-            this.updatedFootballer.caps = footballer.caps;
+            this.updatedFootballer.apps = footballer.apps;
             this.updatedFootballer.intCaps = footballer.intCaps;
             this.updatedFootballer.team.logo = footballer.team.logo;
             this.updatedFootballer.team.name = footballer.team.name;
@@ -500,7 +500,7 @@ export default {
                     },
                     height: this.updatedFootballer.height,
                     birthday: this.updatedFootballer.birthday,
-                    caps: this.updatedFootballer.caps,
+                    apps: this.updatedFootballer.apps,
                     intCaps: this.updatedFootballer.intCaps,
                     team: {
                         logo: this.updatedFootballer.team.logo,
@@ -548,9 +548,9 @@ export default {
                 this.sortDirection = 'asc';
             }
 
-            if ((column == "Height" || column == "Caps" || column == "IntCaps") && this.sortDirection == 'asc') {
+            if ((column == "Height" || column == "Apps" || column == "IntCaps") && this.sortDirection == 'asc') {
                     this.footballers.sort(function(a, b) { return a - b });
-            } else if ((column == "Height" || column == "Caps" || column == "IntCaps") && this.sortDirection == 'desc') {
+            } else if ((column == "Height" || column == "Apps" || column == "IntCaps") && this.sortDirection == 'desc') {
                     this.footballers.sort(function(a, b) { return b - a });
             } else {
                 this.footballers.sort((a, b) => {
@@ -671,7 +671,7 @@ th input {
 }
 
 .gci {
-    width: 60px;
+    width: 55px;
 }
 
 .igci {
@@ -702,7 +702,7 @@ th {
 td {
     font-size: 14px;
     border-top: 1px solid black;
-    padding: 4px;
+    padding: 3px;
 }
 
 .selector {
