@@ -790,7 +790,7 @@ th {
 td {
     font-size: 14px;
     border-top: 1px solid black;
-    padding: 3px;
+    padding: 3px 3px 2px 3px;
 }
 
 .selector {
