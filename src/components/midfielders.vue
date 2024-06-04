@@ -160,13 +160,13 @@
                     <input type="text" v-model="filters.nationality.name">
                 </th>
                 <th>
-                    <input type="text" class="bsp" v-model="filters.birthplace">
+                    <input type="text" v-model="filters.birthplace">
                 </th>
                 <th>
                     <input type="text" v-model="filters.countryOfBirth.name">
                 </th>
                 <th>
-                    <input type="text" v-model="filters.position">
+                    <input type="text" class="bsp" v-model="filters.position">
                 </th>
                 <th>
                     <input type="text" class="gci" v-model="filters.height">
@@ -778,7 +778,7 @@ th input {
 }
 
 .bsp {
-    width: 100px;
+    width: 130px;
 }
 
 .fw-table td, th {
