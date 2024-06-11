@@ -157,13 +157,13 @@
                     <input type="text" v-model="filters.name">
                 </th>
                 <th>
-                    <input type="text" v-model="filters.nationality.name">
+                    <input type="text" class="inp" v-model="filters.nationality.name">
                 </th>
                 <th>
-                    <input type="text" v-model="filters.birthplace">
+                    <input type="text" class="inp" v-model="filters.birthplace">
                 </th>
                 <th>
-                    <input type="text" v-model="filters.countryOfBirth.name">
+                    <input type="text" class="inp" v-model="filters.countryOfBirth.name">
                 </th>
                 <th>
                     <input type="text" class="pgci" v-model="filters.position">
@@ -301,12 +301,12 @@
                 </td>
                 <td>{{ index + 1 }}</td>
                 <td>{{ footballer.name }}</td>
-                <td>
+                <td class="td-n">
                     <img :src="footballer.nationality.flag" alt="" width="20" height="15">
                     {{ footballer.nationality.name }}
                 </td>
                 <td>{{ footballer.birthplace }}</td>
-                <td>
+                <td class="td-n">
                     <img :src="footballer.countryOfBirth.flag" alt="" width="20" height="15">
                     {{ footballer.countryOfBirth.name }}
                 </td>
@@ -756,6 +756,14 @@ th input {
     box-sizing: border-box;
     width: 100%;
     padding: 4px;
+}
+
+.td-n {
+    width: 130px;
+}
+
+.inp {
+    width: 120px;
 }
 
 .gci {
