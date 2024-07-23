@@ -605,6 +605,7 @@ export default {
                 }
 
                 this.footballers = [...this.footballers];
+                this.getFootballers();
             } catch (error) {
                 console.error('Error saving changes:', error);
             }
