@@ -310,7 +310,7 @@
                     <img :src="footballer.countryOfBirth.flag" alt="" width="20" height="15">
                     {{ footballer.countryOfBirth.name }}
                 </td>
-                <td>{{ footballer.position }}</td>
+                <td class="td-p">{{ footballer.position }}</td>
                 <td>{{ footballer.height ? footballer.height.toFixed(2) : 0 }}</td>
                 <td>{{ footballer.birthday }}</td>
                 <td>{{ footballer.apps }}</td>
@@ -318,7 +318,7 @@
                 <td>{{ footballer.intCaps }}</td>
                 <td>{{ footballer.intGoals }}</td>
                 <td>
-                    <img :src="footballer.team.logo" alt="" width="19" height="20">
+                    <img :src="footballer.team.logo" alt="" width="20" height="20">
                     {{ footballer.team.name }}
                 </td>
                 <td>{{ footballer.tc }}</td>
@@ -760,19 +760,23 @@ th input {
 }
 
 .td-n {
-    width: 130px;
+    width: 140px;
+}
+
+.td-p {
+    width: 100px;
 }
 
 .inp {
-    width: 120px;
+    width: 130px;
 }
 
 .gci {
-    width: 55px;
+    width: 70px;
 }
 
 .cgci {
-    width: 55px;
+    width: 70px;
 }
 
 .igci {

@@ -672,7 +672,7 @@ th input {
 }
 
 .gci {
-    width: 55px;
+    width: 70px;
 }
 
 .igci {

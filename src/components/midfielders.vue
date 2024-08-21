@@ -310,7 +310,7 @@
                     <img :src="footballer.countryOfBirth.flag" alt="" width="20" height="15">
                     {{ footballer.countryOfBirth.name }}
                 </td>
-                <td>{{ footballer.position }}</td>
+                <td class="td-p">{{ footballer.position }}</td>
                 <td>{{ footballer.height ? footballer.height.toFixed(2) : 0 }}</td>
                 <td>{{ footballer.birthday }}</td>
                 <td class="tdwd">{{ footballer.apps }}</td>
@@ -766,12 +766,16 @@ th input {
     width: 130px;
 }
 
-.inp {
+.td-p {
     width: 120px;
 }
 
+.inp {
+    width: 125px;
+}
+
 .gci {
-    width: 55px;
+    width: 70px;
 }
 
 .igci {
@@ -779,7 +783,7 @@ th input {
 }
 
 .cgci {
-    width: 55px;
+    width: 70px;
 }
 
 .it {
