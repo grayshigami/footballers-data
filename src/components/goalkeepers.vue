@@ -355,30 +355,35 @@ export default {
     computed: {
         filteredFootballers() {
             return this.footballers.filter(footballer => {
-                const filterName = this.filters.name.toLowerCase();
-                const filterNationality = this.filters.nationality.name.toLowerCase();
-                const filterBirthplace = this.filters.birthplace.toLowerCase();
-                const filterCountryOfBirth = this.filters.countryOfBirth.name.toLowerCase();
+                const normalizeText = text => text.normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/-/g, ' ')
+                    .toLowerCase();
+    
+                const filterName = normalizeText(this.filters.name);
+                const filterNationality = normalizeText(this.filters.nationality.name);
+                const filterBirthplace = normalizeText(this.filters.birthplace);
+                const filterCountryOfBirth = normalizeText(this.filters.countryOfBirth.name);
                 const filterHeight = this.filters.height;
                 const filterBirthday = this.filters.birthday.toLowerCase();
                 const filterApps = this.filters.apps;
                 const filterIntCaps = this.filters.intCaps;
-                const filterTeam = this.filters.team.name.toLowerCase();
+                const filterTeam = normalizeText(this.filters.team.name);
                 const filterTc = this.filters.tc.toLowerCase();
                 const filterStarter = this.filters.starter.toLowerCase();
                 const heightComparing = this.filters.heightComparing;
                 const appsComparing = this.filters.appsComparing;
                 const intCapsComparing = this.filters.intCapsComparing;
 
-                const matchesFilterName = !filterName || footballer.name.toLowerCase().includes(filterName);
-                const matchesFilterNationality = !filterNationality || footballer.nationality.name.toLowerCase()
-                .includes(filterNationality);
-                const matchesFilterBirthplace = !filterBirthplace || footballer.birthplace.toLowerCase()
-                .includes(filterBirthplace);
-                const matchesFilterCountryOfBirth = !filterCountryOfBirth || footballer.countryOfBirth.name.toLowerCase()
-                .includes(filterCountryOfBirth);
+                const matchesFilterName = !filterName || normalizeText(footballer.name).includes(filterName);
+                const matchesFilterNationality = !filterNationality || normalizeText(footballer.nationality.name)
+                    .includes(filterNationality);
+                const matchesFilterBirthplace = !filterBirthplace || normalizeText(footballer.birthplace)
+                    .includes(filterBirthplace);
+                const matchesFilterCountryOfBirth = !filterCountryOfBirth || normalizeText(footballer.countryOfBirth.name)
+                    .includes(filterCountryOfBirth);
                 const matchesFilterBirthday = !filterBirthday || footballer.birthday.toLowerCase().includes(filterBirthday);
-                const matchesFilterTeam = !filterTeam || footballer.team.name.toLowerCase().includes(filterTeam);
+                const matchesFilterTeam = !filterTeam || normalizeText(footballer.team.name).includes(filterTeam);
                 const matchesFilterTc = !filterTc || footballer.tc.toLowerCase().includes(filterTc);
                 const matchesFilterStarter = !filterStarter || footballer.starter.toLowerCase().includes(filterStarter);
 
@@ -546,19 +551,39 @@ export default {
                 this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
             } else {
                 this.sortBy = column;
-                this.sortDirection = 'asc';
+                this.sortDirection = 'asc'
             }
 
-            if ((column == "Height" || column == "Apps" || column == "IntCaps") && this.sortDirection == 'asc') {
-                    this.footballers.sort(function(a, b) { return a - b });
-            } else if ((column == "Height" || column == "Apps" || column == "IntCaps") && this.sortDirection == 'desc') {
-                    this.footballers.sort(function(a, b) { return b - a });
-            } else {
+            const numericColumns = ["height", "apps", "goals", "intCaps", "intGoals"];
+
+            if (numericColumns.includes(column)) {
                 this.footballers.sort((a, b) => {
                     if (this.sortDirection === 'asc') {
-                        return a[column] > b[column] ? 1 : -1;
+                        return a[column] - b[column];
                     } else {
-                        return a[column] < b[column] ? 1 : -1;
+                        return b[column] - a[column];
+                    }
+                });
+            } else {
+                this.footballers.sort((a, b) => {
+                    let aValue = a[column];
+                    let bValue = b[column];
+
+                    if (["nationality", "countryOfBirth", "team"].includes(column)) {
+                        aValue = a[column]?.name || '';
+                        bValue = b[column]?.name || '';
+                    } else {
+                        aValue = a[column] || '';
+                        bValue = b[column] || '';
+                    }
+
+                    aValue = String(aValue).toLowerCase();
+                    bValue = String(bValue).toLowerCase();
+
+                    if (this.sortDirection === 'asc') {
+                        return aValue.localeCompare(bValue);
+                    } else {
+                        return bValue.localeCompare(aValue);
                     }
                 });
             }
