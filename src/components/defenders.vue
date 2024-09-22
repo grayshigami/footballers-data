@@ -405,9 +405,24 @@ export default {
     computed: {
         filteredFootballers() {
             return this.footballers.filter(footballer => {
-                const normalizeText = text => text.normalize("NFD")
+                const specialCharsMap = {
+                    'å': 'a',
+                    'æ': 'ae',
+                    'Đ': 'Dj',
+                    'đ': 'dj',
+                    'ı': 'i',
+                    'Ł': 'L',
+                    'ł': 'l',
+                    'Ø': 'O',
+                    'ø': 'o',
+                    'ß': 'ss'
+                };
+
+                const normalizeText = text => text
+                    .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "")
                     .replace(/-/g, ' ')
+                    .replace(/å|æ|Đ|đ|ı|Ł|ł|Ø|ø|ß/g, match => specialCharsMap[match] || match)
                     .toLowerCase();
 
                 const filterName = normalizeText(this.filters.name);
