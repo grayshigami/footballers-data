@@ -408,6 +408,7 @@ export default {
                 const specialCharsMap = {
                     'å': 'a',
                     'æ': 'ae',
+                    'ð': 'd',
                     'Đ': 'Dj',
                     'đ': 'dj',
                     'ı': 'i',
@@ -422,7 +423,7 @@ export default {
                     .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "")
                     .replace(/-/g, ' ')
-                    .replace(/å|æ|Đ|đ|ı|Ł|ł|Ø|ø|ß/g, match => specialCharsMap[match] || match)
+                    .replace(/å|æ|ð|Đ|đ|ı|Ł|ł|Ø|ø|ß/g, match => specialCharsMap[match] || match)
                     .toLowerCase();
 
                 const filterName = normalizeText(this.filters.name);
