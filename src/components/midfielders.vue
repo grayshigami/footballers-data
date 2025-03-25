@@ -567,7 +567,7 @@ export default {
         async insertFootballer() {
             this.visible = false;
             try {
-                const response = await axios.post('http://localhost:3000/midfielders', this.newFootballer);
+                const response = await axios.post('http://localhost:3001/midfielders', this.newFootballer);
                 this.footballers.push(response.data);
                 this.newFootballer = this.restartNewFootballer();
             } catch (error) {
@@ -597,7 +597,7 @@ export default {
         async updateFootballer() {
             this.updateVisible = false;
             try {
-                const response = await axios.put(`http://localhost:3000/midfielders/${this.footballer._id}`, {
+                const response = await axios.put(`http://localhost:3001/midfielders/${this.footballer._id}`, {
                     ...this.footballer,
                     name: this.updatedFootballer.name,
                     nationality: {
@@ -637,7 +637,7 @@ export default {
         },
         async getFootballers() {
             try {
-                const response = await axios.get('http://localhost:3000/midfielders');
+                const response = await axios.get('http://localhost:3001/midfielders');
                 this.footballers = response.data;
             } catch (error) {
                 console.error('Error when fetching midfielders:', error);
@@ -645,7 +645,7 @@ export default {
         },
         deleteSelectedFootballers() {
             this.selectedFootballers.forEach(id => {
-                axios.delete(`http://localhost:3000/midfielders/${id}`)
+                axios.delete(`http://localhost:3001/midfielders/${id}`)
                 .then(() => {
                     this.getFootballers();
                 })
